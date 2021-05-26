@@ -56,14 +56,27 @@ namespace PricingCalculator
             try
             {
                 // receive order items and add it to a list
-                string [] items = { "Beans", "Bread", "Apples" };
-                var orderItems = new OrderItemModel();
-                foreach (var item in items)
+                if (args.Length > 0)
                 {
-                    orderItems.itemList.Add(item.ToString());
+
+                    string [] items = { };
+                    var orderItems = new OrderItemModel();
+
+                    for (int i = 0; i < args.Length; i++)
+                    {
+                        orderItems.itemList.Add(args [i].ToString());
+                    }
+
+                    // start processing of order items for pricing                    
+                    Log.Logger.Information(svc.HandleRequest(orderItems));
+
+                    Console.WriteLine("Press any key to exit");
+                    Console.ReadLine();
                 }
-                // start processing of order items for pricing
-                Log.Logger.Information(svc.HandleRequest(orderItems));
+                else
+                {
+                    throw new Exception("Please enter the order items to process");
+                }
             }
             catch (Exception ex)
             {
