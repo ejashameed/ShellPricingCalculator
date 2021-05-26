@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+/PricingCalculator/.vs/PricingCalculator/v16
+/PricingCalculator/PricingCalculator/bin/Debug/netcoreapp3.1
+/PricingCalculator/PricingCalculator/obj
