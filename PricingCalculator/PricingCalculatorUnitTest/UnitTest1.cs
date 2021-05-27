@@ -28,11 +28,15 @@ namespace PricingCalculatorUnitTest
             OutputTextWithOffer textWithOffer = new OutputTextWithOffer();
             IOutputTextFormatter textFormatter = new BaseTextFormatter(textRegular,textWithOffer);
 
-            WeeklyDiscountProcessor weeklyDiscount = new WeeklyDiscountProcessor(new DbContext());
-            BuyXGetYDiscountProcessor BuyXGetY = new BuyXGetYDiscountProcessor(new DbContext());
-            IDiscountProcessor discountProcessor = new DiscountProcessor(weeklyDiscount,BuyXGetY);
+            //WeeklyDiscountProcessor weeklyDiscount = new WeeklyDiscountProcessor(new DbContext());
+            //BuyXGetYDiscountProcessor BuyXGetY = new BuyXGetYDiscountProcessor(new DbContext());
+            
 
-            OrderRequestHandler requestHandler = new OrderRequestHandler(orderProcessor,discountProcessor,validator,textFormatter);
+            IDiscountProcessor<WeeklyDiscountProcessor> weeklyDiscountProcessor = new WeeklyDiscountProcessor(new DbContext());
+            IDiscountProcessor<BuyXGetYDiscountProcessor> buyXGetYDiscountProcessor = new BuyXGetYDiscountProcessor(new DbContext());
+
+
+            OrderRequestHandler requestHandler = new OrderRequestHandler(orderProcessor,weeklyDiscountProcessor,buyXGetYDiscountProcessor,validator,textFormatter);
 
             OrderItemModel orderItems = new OrderItemModel();
             orderItems.itemList.Add("Apples");
@@ -59,9 +63,11 @@ namespace PricingCalculatorUnitTest
 
             WeeklyDiscountProcessor weeklyDiscount = new WeeklyDiscountProcessor(new DbContext());
             BuyXGetYDiscountProcessor BuyXGetY = new BuyXGetYDiscountProcessor(new DbContext());
-            IDiscountProcessor discountProcessor = new DiscountProcessor(weeklyDiscount, BuyXGetY);
 
-            OrderRequestHandler requestHandler = new OrderRequestHandler(orderProcessor, discountProcessor, validator, textFormatter);
+            IDiscountProcessor<WeeklyDiscountProcessor> weeklyDiscountProcessor = new WeeklyDiscountProcessor(new DbContext());
+            IDiscountProcessor<BuyXGetYDiscountProcessor> buyXGetYDiscountProcessor = new BuyXGetYDiscountProcessor(new DbContext());
+
+            OrderRequestHandler requestHandler = new OrderRequestHandler(orderProcessor, weeklyDiscountProcessor,buyXGetYDiscountProcessor, validator, textFormatter);
 
             OrderItemModel orderItems = new OrderItemModel();
             orderItems.itemList.Add("Apples");

@@ -38,8 +38,10 @@ namespace PricingCalculator
                 {
                     services.AddTransient<IOrderRequestHandler, OrderRequestHandler>();
                     services.AddTransient<IOrderProcessor, ShoppingBasketProcessor>();
-                    services.AddTransient<IDbContext, DbContext>();
-                    services.AddTransient<IDiscountProcessor, DiscountProcessor>();
+                    services.AddTransient<IDbContext, DbContext>();                   
+                    services.AddTransient<IDiscountProcessor<WeeklyDiscountProcessor>,WeeklyDiscountProcessor >();
+                    services.AddTransient<IDiscountProcessor<BuyXGetYDiscountProcessor>, BuyXGetYDiscountProcessor>();                    
+                    
                     services.AddTransient<WeeklyDiscountProcessor>();
                     services.AddTransient<BuyXGetYDiscountProcessor>();
                     services.AddTransient<OrderValidator>();

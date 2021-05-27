@@ -12,20 +12,23 @@ namespace PricingCalculator.BusinessServices.Handlers
     public class OrderRequestHandler : IOrderRequestHandler
     {
         private readonly IOrderProcessor _orderProcessor;
-        private readonly IDiscountProcessor _discountProcessor;
+        private readonly IDiscountProcessor<WeeklyDiscountProcessor> _weeklyDiscountProcessor;
+        private readonly IDiscountProcessor<BuyXGetYDiscountProcessor> _buyXGetYDiscountProcessor;
         private readonly OrderValidator _orderValidator;
         private readonly IOutputTextFormatter _textFormatter;
         
 
         public OrderRequestHandler(
-                        IOrderProcessor orderProcessor, 
-                        IDiscountProcessor discountProcessor, 
+                        IOrderProcessor orderProcessor,
+                        IDiscountProcessor<WeeklyDiscountProcessor> weeklyDiscountProcessor,
+                        IDiscountProcessor<BuyXGetYDiscountProcessor> buyXGetYDiscountProcessor,
                         OrderValidator orderValidator,
                         IOutputTextFormatter textFormatter)
                         
         {
             _orderProcessor = orderProcessor;
-            _discountProcessor = discountProcessor;
+            _weeklyDiscountProcessor = weeklyDiscountProcessor;
+            _buyXGetYDiscountProcessor = buyXGetYDiscountProcessor;
             _orderValidator = orderValidator;
             _textFormatter = textFormatter;
         }
@@ -39,8 +42,11 @@ namespace PricingCalculator.BusinessServices.Handlers
                 // calculate total price of items in basket
                 var basket = _orderProcessor.CalculatePrice(orderItems);
 
-                // check and apply special discount on items under offer
-                basket = _discountProcessor.CalculateDiscount(basket);
+                // check and apply weekly discount on items under offer
+                basket = _weeklyDiscountProcessor.CalculateDiscount(basket);
+
+                // check and apply BuyXGetY discount 
+                basket = _buyXGetYDiscountProcessor.CalculateDiscount(basket);
 
                 //format output 
                outputText = _textFormatter.OutputText(basket);

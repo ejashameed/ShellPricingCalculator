@@ -5,8 +5,9 @@ using System.Text;
 
 namespace PricingCalculator.BusinessServices.Processors.DiscountProcessors
 {
-    public interface IDiscountProcessor
+    public interface IDiscountProcessor<T>
     {
         public abstract ShoppingBasketModel CalculateDiscount(ShoppingBasketModel basket);
     }
 }
+    

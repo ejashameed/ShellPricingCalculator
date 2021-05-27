@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PricingCalculator": {
+      "commandName": "Project",
+      "commandLineArgs": "Apples Beans Beans Bread"
+    }
+  }
+}
