@@ -78,5 +78,40 @@ namespace PricingCalculatorUnitTest
             System.Console.WriteLine(output);
             Assert.Pass();
         }
+
+        // check more than one discount is applied on an item
+        [Test]
+        public void Test3()
+        {
+            // manually create instances of required objects
+
+            IOrderProcessor orderProcessor = new ShoppingBasketProcessor(new DbContext());
+            OrderValidator validator = new OrderValidator(new DbContext());
+            OutputTextRegular textRegular = new OutputTextRegular();
+            OutputTextWithOffer textWithOffer = new OutputTextWithOffer();
+            IOutputTextFormatter textFormatter = new BaseTextFormatter(textRegular, textWithOffer);
+
+            //WeeklyDiscountProcessor weeklyDiscount = new WeeklyDiscountProcessor(new DbContext());
+            //BuyXGetYDiscountProcessor BuyXGetY = new BuyXGetYDiscountProcessor(new DbContext());
+
+            IDiscountProcessor<WeeklyDiscountProcessor> weeklyDiscountProcessor = new WeeklyDiscountProcessor(new DbContext());
+            IDiscountProcessor<BuyXGetYDiscountProcessor> buyXGetYDiscountProcessor = new BuyXGetYDiscountProcessor(new DbContext());
+
+            OrderRequestHandler requestHandler = new OrderRequestHandler(orderProcessor, weeklyDiscountProcessor, buyXGetYDiscountProcessor, validator, textFormatter);
+
+            OrderItemModel orderItems = new OrderItemModel();
+            orderItems.itemList.Add("Apples");
+            orderItems.itemList.Add("Bread");
+            orderItems.itemList.Add("Bread");
+            orderItems.itemList.Add("Bread");
+            orderItems.itemList.Add("Beans");
+            orderItems.itemList.Add("Beans");
+            orderItems.itemList.Add("Milk");
+
+            string output = requestHandler.HandleRequest(orderItems);
+            System.Console.WriteLine(output);
+            Assert.Pass();
+        }
+
     }
 }

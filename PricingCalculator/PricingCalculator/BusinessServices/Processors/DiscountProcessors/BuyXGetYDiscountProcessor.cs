@@ -21,20 +21,24 @@ namespace PricingCalculator.BusinessServices.Processors.DiscountProcessors
         {
             foreach (var item in basket.Items)
             {
-                // check which item in basket is under offer for BuyXGetY type
-                var offer = _dbContext.GetOffer(item.Item,"BuyXGetY");
-                if (offer != null)
+                // check already discount is applied on item. - asssumption is that only one discount at a time allowed
+                // for example, if 2 cans of beans and 2 loafs of bread added in basket, only one loaf of bread should get half discount
+                if (basket.Items.Where(i => i.Item == item.Item).Sum(x => x.ItemDiscount) <= 0)
                 {
-                    if (offer.OfferType == "BuyXGetY") // check the discount type
+                    // check which item in basket is under offer for BuyXGetY type
+                    var offer = _dbContext.GetOffer(item.Item, "BuyXGetY");
+                    if (offer != null)
                     {
-                        if (basket.Items.Where(x => x.Item == offer.CustomerBuysItem).Count() >= offer.CustomerBuysQuantity)
+                        if (offer.OfferType == "BuyXGetY") // check the discount type
                         {
-                            item.ItemDiscount = Math.Round((item.ItemAmount * offer.CustomerGetsDiscount) / 100, 2);
-                            item.ItemDiscountText = item.Item + " : " + offer.OfferDescription + " : " + item.ItemDiscount.ToString();
+                            if (basket.Items.Where(x => x.Item == offer.CustomerBuysItem).Count() >= offer.CustomerBuysQuantity)
+                            {
+                                item.ItemDiscount = Math.Round((item.ItemAmount * offer.CustomerGetsDiscount) / 100, 2);
+                                item.ItemDiscountText = item.Item + " : " + offer.OfferDescription + " : " + item.ItemDiscount.ToString();
+                            }
                         }
                     }
                 }
-
             }
             basket = base.UpdateTotal(basket);
             return basket;            
