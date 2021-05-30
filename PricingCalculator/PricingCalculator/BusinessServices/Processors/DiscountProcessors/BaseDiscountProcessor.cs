@@ -6,10 +6,14 @@ using System.Text;
 
 namespace PricingCalculator.BusinessServices.Processors.DiscountProcessors
 {
+    // This is the base class for calculating discount on items in basket
+    // Any discount class or new classes in future will derive from this base class and implement the CalculateDiscoount method.
     public abstract class BaseDiscountProcessor<T> : IDiscountProcessor<T>
     {
         public abstract ShoppingBasketModel CalculateDiscount(ShoppingBasketModel basket);    
-        public ShoppingBasketModel UpdateTotal(ShoppingBasketModel basket)
+        
+        // this method will calculate the total price of items in basket and update the SubTotal, FinalToal & TotalDiscount
+        public virtual ShoppingBasketModel UpdateTotal(ShoppingBasketModel basket)
         {
             // calculate total discount on items in basket and update basket object
             basket.TotalDiscount = basket.Items.Sum(x => x.ItemDiscount);

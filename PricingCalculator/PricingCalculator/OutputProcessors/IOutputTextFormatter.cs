@@ -7,6 +7,6 @@ namespace PricingCalculator.OutputProcessors
 {
     public interface IOutputTextFormatter
     {
-        public string OutputText(ShoppingBasketModel basket);
+        public string ApplyTextFormatting(ShoppingBasketModel basket);
     }
 }

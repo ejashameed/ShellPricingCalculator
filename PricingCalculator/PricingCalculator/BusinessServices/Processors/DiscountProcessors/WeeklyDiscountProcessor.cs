@@ -7,6 +7,8 @@ using System.Text;
 
 namespace PricingCalculator.BusinessServices.Processors.DiscountProcessors
 {
+    // this class will be used for calcualting weekly discount
+    // this class is derived from BaseDiscountProcessor class and implements the CalculateDiscount method
     public class WeeklyDiscountProcessor:BaseDiscountProcessor<WeeklyDiscountProcessor>
     {
         private readonly IDbContext _dbContext;
@@ -15,14 +17,16 @@ namespace PricingCalculator.BusinessServices.Processors.DiscountProcessors
             _dbContext = DbContext;
         }
 
+        // implement the PriceDiscount offer
+        // apply price discount on items under offer and update item in basket with discount value and discount text.
         public override ShoppingBasketModel CalculateDiscount(ShoppingBasketModel basket)
         {
             foreach (var item in basket.Items)
             {
-                var offer = _dbContext.GetOffer(item.Item);
+                var offer = _dbContext.GetOffer(item.Item, "PriceDiscount");
                 if (offer != null)
                 {
-                    if (offer.OfferType == "PriceDiscount" && offer.DiscountPercentage > 0)
+                    if (offer.OfferType == "PriceDiscount" && offer.DiscountPercentage > 0 && item.ItemAmount > 0)
                     {
                         item.ItemDiscount = Math.Round((item.ItemAmount * offer.DiscountPercentage) / 100, 2);
                         item.ItemDiscountText = item.Item + " : " + offer.OfferDescription + " : " + item.ItemDiscount.ToString();
@@ -33,23 +37,6 @@ namespace PricingCalculator.BusinessServices.Processors.DiscountProcessors
             basket = base.UpdateTotal(basket);
             return basket;
         }
-
-        public ShoppingBasketModel CalculateWeeklyOffer(ShoppingBasketModel basket)
-        {
-            foreach (var item in basket.Items)
-            {
-               var offer = _dbContext.GetOffer(item.Item);
-               if(offer != null)
-               {
-                    if (offer.OfferType == "PriceDiscount" && offer.DiscountPercentage > 0)
-                    {
-                        item.ItemDiscount = Math.Round((item.ItemAmount * offer.DiscountPercentage) / 100, 2);
-                        item.ItemDiscountText = item.Item + " : " + offer.OfferDescription + " : " + item.ItemDiscount.ToString();
-                    }
-               }                
-            }
-
-            return basket;
-        }
+                
     }
 }

@@ -11,6 +11,7 @@ namespace PricingCalculator.DataServices.Repositories
         public List<ProductModel> GetAllProducts();
         public ProductModel GetProduct(string item);
         public List<SpecialOffer> GetAllOffers();
-        public SpecialOffer GetOffer(string item);       
+        public SpecialOffer GetOffer(string item);
+        public SpecialOffer GetOffer(string item, string offerType);
     }
 }

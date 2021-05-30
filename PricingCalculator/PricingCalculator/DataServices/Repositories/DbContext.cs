@@ -3,9 +3,11 @@ using PricingCalculator.DataServices.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PricingCalculator.DataServices.Repositories
 {
+    //custom implementation of DBContext - in-memory list is used to load the data
     public class DbContext : IDbContext
     {
         private readonly ProductRepository _productRepository;
@@ -28,6 +30,11 @@ namespace PricingCalculator.DataServices.Repositories
         public SpecialOffer GetOffer(string item)
         {
             return _specialOfferRepository.GetOffer(item);
+        }
+
+        public SpecialOffer GetOffer(string item, string offerType)
+        {
+            return _specialOfferRepository.GetOffer(item,offerType);
         }
 
         public ProductModel GetProduct(string item)

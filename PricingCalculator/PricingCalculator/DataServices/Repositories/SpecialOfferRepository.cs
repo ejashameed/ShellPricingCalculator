@@ -18,6 +18,11 @@ namespace PricingCalculator.DataServices.Repositories
             return DataSource().Where(x => x.Item == item && x.IsActive == true).FirstOrDefault();
         }
 
+        public SpecialOffer GetOffer(string item, string offerType)
+        {
+            return DataSource().Where(x => x.Item == item && x.OfferType == offerType && x.IsActive == true).FirstOrDefault();
+        }
+
         private List<SpecialOffer> DataSource()
         {
             return new List<SpecialOffer>()

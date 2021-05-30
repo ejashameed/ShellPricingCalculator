@@ -10,9 +10,7 @@ namespace PricingCalculator.OutputProcessors
     {
         public string OutputText(ShoppingBasketModel basket)
         {
-            string output = "";
-            string pound = "£";
-            string pence = "p";
+            string output = "";            
             string subTotalToText = "";
             string totalPriceToText = "";
 

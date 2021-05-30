@@ -17,6 +17,7 @@ namespace PricingCalculatorUnitTest
            
         }
 
+        // test total price calculation with discount on Apples & But 2 Beans and Get Half Bread offer
         [Test]
         public void Test1()
         {    
@@ -31,10 +32,8 @@ namespace PricingCalculatorUnitTest
             //WeeklyDiscountProcessor weeklyDiscount = new WeeklyDiscountProcessor(new DbContext());
             //BuyXGetYDiscountProcessor BuyXGetY = new BuyXGetYDiscountProcessor(new DbContext());
             
-
             IDiscountProcessor<WeeklyDiscountProcessor> weeklyDiscountProcessor = new WeeklyDiscountProcessor(new DbContext());
             IDiscountProcessor<BuyXGetYDiscountProcessor> buyXGetYDiscountProcessor = new BuyXGetYDiscountProcessor(new DbContext());
-
 
             OrderRequestHandler requestHandler = new OrderRequestHandler(orderProcessor,weeklyDiscountProcessor,buyXGetYDiscountProcessor,validator,textFormatter);
 
@@ -50,6 +49,7 @@ namespace PricingCalculatorUnitTest
             Assert.Pass();
         }
 
+        // Check discount on Apples
         [Test]
         public void Test2()
         {
@@ -74,7 +74,6 @@ namespace PricingCalculatorUnitTest
             orderItems.itemList.Add("Bread");
             orderItems.itemList.Add("Beans");
             
-
             string output = requestHandler.HandleRequest(orderItems);
             System.Console.WriteLine(output);
             Assert.Pass();

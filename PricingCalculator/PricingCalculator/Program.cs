@@ -42,10 +42,10 @@ namespace PricingCalculator
                     services.AddTransient<IDiscountProcessor<WeeklyDiscountProcessor>,WeeklyDiscountProcessor >();
                     services.AddTransient<IDiscountProcessor<BuyXGetYDiscountProcessor>, BuyXGetYDiscountProcessor>();                    
                     
-                    services.AddTransient<WeeklyDiscountProcessor>();
-                    services.AddTransient<BuyXGetYDiscountProcessor>();
+                    //services.AddTransient<WeeklyDiscountProcessor>();
+                    //services.AddTransient<BuyXGetYDiscountProcessor>();
                     services.AddTransient<OrderValidator>();
-                    services.AddTransient<IOutputTextFormatter, BaseTextFormatter>();
+                    services.AddTransient<IOutputTextFormatter, BaseTextFormatter>();                    
                     services.AddTransient<OutputTextRegular>();
                     services.AddTransient<OutputTextWithOffer>();
                 })

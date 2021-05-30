@@ -14,20 +14,21 @@ namespace PricingCalculator.OutputProcessors
             _offerTextFormatter = offerTextFormatter;
             _regularTextFormatter = regularTextFormatter;
         }
-        public virtual string OutputText(ShoppingBasketModel basket)
+        public virtual string ApplyTextFormatting(ShoppingBasketModel basket)
         {
             // formatted output
             string outputText = "";
 
             if (basket.TotalDiscount > 0)
             {
+                // template for printing with discount
                 outputText = _offerTextFormatter.OutputText(basket);
             }
             else
             {
+                // tempalte for printing without discount text
                 outputText = _regularTextFormatter.OutputText(basket);
             }
-
             return outputText;
         }
     }

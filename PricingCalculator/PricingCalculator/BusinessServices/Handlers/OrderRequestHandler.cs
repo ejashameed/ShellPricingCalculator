@@ -9,6 +9,7 @@ using System.Text;
 
 namespace PricingCalculator.BusinessServices.Handlers
 {
+//Handles the service request call from the Client Application
     public class OrderRequestHandler : IOrderRequestHandler
     {
         private readonly IOrderProcessor _orderProcessor;
@@ -18,6 +19,7 @@ namespace PricingCalculator.BusinessServices.Handlers
         private readonly IOutputTextFormatter _textFormatter;
         
 
+        //create instances of dependent classes using .Net core DI container
         public OrderRequestHandler(
                         IOrderProcessor orderProcessor,
                         IDiscountProcessor<WeeklyDiscountProcessor> weeklyDiscountProcessor,
@@ -32,11 +34,13 @@ namespace PricingCalculator.BusinessServices.Handlers
             _orderValidator = orderValidator;
             _textFormatter = textFormatter;
         }
+
+        //methos that handles the client call to calculate the total price of items in basket
         public string HandleRequest(OrderItemModel orderItems)
         {
             string outputText = "";
 
-            //check order items are valid
+            //check order items in basket are valid
             if (_orderValidator.Validate(orderItems))
             {
                 // calculate total price of items in basket
@@ -49,7 +53,7 @@ namespace PricingCalculator.BusinessServices.Handlers
                 basket = _buyXGetYDiscountProcessor.CalculateDiscount(basket);
 
                 //format output 
-               outputText = _textFormatter.OutputText(basket);
+               outputText = _textFormatter.ApplyTextFormatting(basket);
             }
 
             return outputText;
